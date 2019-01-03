@@ -1,0 +1,12 @@
+Target #0: <28.069,11.249>
+Target #1: <19.655,22.197>
+Target #2: <14.252,7.239>
+--- Seed: random
+Cluster #0: <19.957,21.695>
+Cluster #1: <13.881,7.343>
+Cluster #2: <28.442,11.917>
+--- Seed: forgy
+Cluster #0: <28.442,11.917>
+Cluster #1: <19.957,21.695>
+Cluster #2: <13.881,7.343>
+UnitTestKMean OK

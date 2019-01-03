@@ -1,0 +1,17 @@
+if seed = random
+  init the center of each cluster with a random value inside the bounds
+  of the input data
+else if seed = Forgy
+  init the center of each cluster with one of the input data randomly
+  choosen, one given input data can't be choosen twice
+loop until clusters' center have all converged
+  init K empty sets S[]
+  for each input data I
+    ID = get the cluster containing I
+    add I to S[ID]
+  for each set S[I]
+    AVG = calculate the average value of the input in S[I]
+    if AVG is equal to the center of the I-th cluster
+      the center of the I-th cluster has converged
+    else
+      set the center of the I-th cluster to AVG
