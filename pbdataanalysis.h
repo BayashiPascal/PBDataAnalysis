@@ -90,6 +90,10 @@ inline
 #endif
 int KMeansClustersGetK(const KMeansClusters* const that);
 
+// Print the KMeansClusters 'that' on the stream 'stream'
+void KMeansClustersPrintln(const KMeansClusters* const that,
+  FILE* const stream);
+
 // ================= Polymorphism ==================
 
 #define KMeansClustersCenter(Cluster, Input) _Generic(Input, \

@@ -276,3 +276,30 @@ int KMeansClustersGetId(const KMeansClusters* const that,
   // Return the id
   return id;
 }
+
+// Print the KMeansClusters 'that' on the stream 'stream'
+void KMeansClustersPrintln(const KMeansClusters* const that, 
+  FILE* const stream) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBDataAnalysisErr->_type = PBErrTypeNullPointer;
+    sprintf(PBDataAnalysisErr->_msg, "'that' is null");
+    PBErrCatch(PBDataAnalysisErr);
+  }
+  if (stream == NULL) {
+    PBDataAnalysisErr->_type = PBErrTypeNullPointer;
+    sprintf(PBDataAnalysisErr->_msg, "'stream' is null");
+    PBErrCatch(PBDataAnalysisErr);
+  }
+#endif  
+  // Loop on clusters' center
+  GSetIterForward iter = 
+    GSetIterForwardCreateStatic(KMeansClustersCenters(that));
+  do {
+    // Get the cluster's center
+    const VecFloat* v = GSetIterGet(&iter);
+    // Print the cluster's center
+    VecPrint(v, stream);
+    printf("\n");
+  } while (GSetIterStep(&iter));
+}
