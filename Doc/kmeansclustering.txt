@@ -4,6 +4,14 @@ if seed = random
 else if seed = Forgy
   init the center of each cluster with one of the input data randomly
   choosen, one given input data can't be choosen twice
+else if seed = pluspus
+  choose one center uniformly at random from among the data points
+  for each data point x, compute D(x), the distance between x and the
+  nearest center that has already been chosen
+  choose one new data point at random as a new center, using a weighted 
+  probability distribution where a point x is chosen with probability 
+  proportional to D(x)
+  repeat the previous 2 steps until k centers have been chosen
 loop until clusters' center have all converged
   init K empty sets S[]
   for each input data I

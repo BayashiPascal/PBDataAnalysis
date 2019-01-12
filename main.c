@@ -83,6 +83,27 @@ void UnitTestKMean() {
   }
 
   KMeansClustersFreeStatic(&clusters);
+
+  printf("--- Seed: plusplus\n");
+  seed = KMeansClustersSeed_PlusPlus;
+  clusters = KMeansClustersCreateStatic(seed);
+  KMeansClustersSearch(&clusters, &input, K);
+
+  if (GSetNbElem(KMeansClustersCenters(&clusters)) != K) {
+    PBMathErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBMathErr->_msg, "_GetKMeansClusterFloat NOK");
+    PBErrCatch(PBDataAnalysisErr);
+  }
+  for (int iCenter = 0; iCenter < K; ++iCenter) {
+    const VecFloat* vFloat = KMeansClustersCenter(&clusters, iCenter);
+    printf("Cluster #%d: ", iCenter);
+    VecPrint(vFloat, stdout);
+    printf("\n");
+    fprintf(csvFile, "%f %f\n", 
+      VecGet(vFloat, 0), VecGet(vFloat, 1));
+  }
+
+  KMeansClustersFreeStatic(&clusters);
   fclose(csvFile);
   while (GSetNbElem(&input) > 0) {
     VecFloat* v = GSetPop(&input);

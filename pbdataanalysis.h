@@ -20,8 +20,10 @@
 // ================= Data structure ===================
 
 typedef enum KMeansClustersSeed {
-  KMeansClustersSeed_Random, KMeansClustersSeed_Forgy
+  KMeansClustersSeed_Random, KMeansClustersSeed_Forgy,
+  KMeansClustersSeed_PlusPlus
 } KMeansClustersSeed;
+#define KMeansClustersSeed_Default KMeansClustersSeed_PlusPlus
 
 typedef struct KMeansClusters {
   GSetVecFloat _centers;

@@ -4,7 +4,7 @@ PBDataAnalysis is a C library providing structures and functions to perform vari
 
 It implements the following algorithms:
 \begin{itemize}
-\item K-means clustering (random and Forgy seeds)
+\item K-means clustering (random, Forgy and plusplus seeds)
 \end{itemize}
 
 It uses the \begin{ttfamily}PBErr\end{ttfamily}, \begin{ttfamily}PBMath\end{ttfamily}, \begin{ttfamily}GSet\end{ttfamily} libraries.\\
@@ -15,7 +15,7 @@ It uses the \begin{ttfamily}PBErr\end{ttfamily}, \begin{ttfamily}PBMath\end{ttfa
 
 The goal of the K-means clustering algorithm is to find K Voronoi cells which clusters a data set in a way that for each cells the center of this cell is the nearest possible to the average value of the input data inside this cell.\\
 
-The K-means algorithm is as follow, where 'seed' defines the way we initialise the algorithm: 'random' or 'Forgy'.\\
+The K-means algorithm is as follow, where 'seed' defines the way we initialise the algorithm: 'random', 'Forgy' or 'plusplus'.\\
 
 \begin{scriptsize}
 \begin{ttfamily}

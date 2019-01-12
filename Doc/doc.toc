@@ -3,6 +3,6 @@
 \contentsline {section}{\numberline {2}Interface}{2}
 \contentsline {section}{\numberline {3}Code}{4}
 \contentsline {subsection}{\numberline {3.1}pbdataanalysis.c}{4}
-\contentsline {section}{\numberline {4}Makefile}{9}
-\contentsline {section}{\numberline {5}Unit tests}{10}
-\contentsline {section}{\numberline {6}Unit tests output}{11}
+\contentsline {section}{\numberline {4}Makefile}{11}
+\contentsline {section}{\numberline {5}Unit tests}{11}
+\contentsline {section}{\numberline {6}Unit tests output}{13}

@@ -17,6 +17,9 @@ void KMeansClustersInitRandom(KMeansClusters* const that,
 void KMeansClustersInitForgy(KMeansClusters* const that,
   const GSetVecFloat* const input);
 
+void KMeansClustersInitPlusPlus(KMeansClusters* const that,
+  const GSetVecFloat* const input);
+
 // ================ Functions implementation ====================
 
 // Create a KMeansClusters for a K-means clustering initialized 
@@ -104,6 +107,9 @@ void KMeansClustersSearch(KMeansClusters* const that,
       break;
     case KMeansClustersSeed_Forgy:
       KMeansClustersInitForgy(that, input);
+      break;
+    case KMeansClustersSeed_PlusPlus:
+      KMeansClustersInitPlusPlus(that, input);
       break;
     default:
       break;
@@ -231,6 +237,81 @@ void KMeansClustersInitForgy(KMeansClusters* const that,
   }
   // Empty the set used to select the seeds
   GSetFlush(&forgyInp);
+}
+
+void KMeansClustersInitPlusPlus(KMeansClusters* const that,
+  const GSetVecFloat* const input) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBDataAnalysisErr->_type = PBErrTypeNullPointer;
+    sprintf(PBDataAnalysisErr->_msg, "'that' is null");
+    PBErrCatch(PBDataAnalysisErr);
+  }
+  if (input == NULL) {
+    PBDataAnalysisErr->_type = PBErrTypeNullPointer;
+    sprintf(PBDataAnalysisErr->_msg, "'input' is null");
+    PBErrCatch(PBDataAnalysisErr);
+  }
+  if (GSetNbElem(input) < KMeansClustersGetK(that)) {
+    PBDataAnalysisErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBDataAnalysisErr->_msg, "not enough inputs (%ld>=%d)", 
+      GSetNbElem(input), KMeansClustersGetK(that));
+    PBErrCatch(PBDataAnalysisErr);
+  }
+#endif
+  // Create a copy of the set of inputs to select the seeds
+  GSetVecFloat remainInp = GSetVecFloatCreateStatic();
+  // For each remaining inputs
+  GSetIterForward iter = GSetIterForwardCreateStatic(input);
+  do {
+    GSetAppend(&remainInp, (VecFloat*)GSetIterGet(&iter));
+  } while (GSetIterStep(&iter));
+  // Declare a variable to pick one input randomly
+  VecFloat* inp = NULL;
+  // Pick one input randomly for the first cluster's center
+  GSetShuffle((GSet*)&remainInp);
+  inp = GSetPop(&remainInp);
+  // Set the center of the 1st cluster to this input
+  VecCopy((VecFloat*)KMeansClustersCenter(that, 0), inp);
+  // For each following cluster
+  for (int iCenter = 1; iCenter < KMeansClustersGetK(that); ++iCenter) {
+    // Declare a variable to memorize the sum of square of distances
+    float sumDist = 0.0;
+    // For each remaining inputs
+    iter = GSetIterForwardCreateStatic(&remainInp);
+    do {
+      // Calculate the minimum distance from this input to the center
+      // of already choosen cluster's center
+      inp = GSetIterGet(&iter);
+      float dist = VecDist(inp, KMeansClustersCenter(that, 0));
+      for (int iChoosenCluster = 1; iChoosenCluster < iCenter; 
+        ++iChoosenCluster) {
+        float d = VecDist(inp, 
+          KMeansClustersCenter(that, iChoosenCluster));
+        if (d < dist)
+          dist = d;
+      }
+      GSetElemSetSortVal((GSetElem*)GSetIterGetElem(&iter), 
+        fsquare(dist));
+      sumDist += fsquare(dist);
+    } while (GSetIterStep(&iter));
+    // Sort the remaining inputs by their distance
+    GSetSort(&remainInp);
+    // Select randomly one input according to its squared distance
+    float r = rnd() * sumDist;
+    GSetIterBackward iterBack = GSetIterBackwardCreateStatic(&remainInp);
+    float sum = GSetElemGetSortVal(GSetIterGetElem(&iterBack));
+    while (r > sum) {
+      GSetIterStep(&iterBack);
+      sum += GSetElemGetSortVal(GSetIterGetElem(&iterBack));
+    }
+    inp = GSetIterGet(&iterBack);
+    GSetIterRemoveElem(&iterBack);
+    // Set the center of the 1st cluster to this input
+    VecCopy((VecFloat*)KMeansClustersCenter(that, iCenter), inp);
+  }
+  // Empty the set used to select the seeds
+  GSetFlush(&remainInp);
 }
 
 // Get the index of the cluster including the 'input' data for the 
