@@ -9,7 +9,6 @@ void UnitTestKMean() {
   srandom(3);
   GSetVecFloat input = GSetVecFloatCreateStatic();
   int K = 3;
-
   float mean = 0.0;
   float sigma = 3.0;
   Gauss gauss = GaussCreateStatic(mean, sigma);
@@ -42,15 +41,13 @@ void UnitTestKMean() {
     fprintf(csvFile, "\n"); 
   }
   fprintf(csvFile, "\n"); 
-
   printf("--- Seed: random\n");
   KMeansClustersSeed seed = KMeansClustersSeed_Random;
   KMeansClusters clusters = KMeansClustersCreateStatic(seed);
   KMeansClustersSearch(&clusters, &input, K);
-
   if (GSetNbElem(KMeansClustersCenters(&clusters)) != K) {
-    PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "_GetKMeansClusterFloat NOK");
+    PBDataAnalysisErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBDataAnalysisErr->_msg, "_GetKMeansClusterFloat NOK");
     PBErrCatch(PBDataAnalysisErr);
   }
   for (int iCenter = 0; iCenter < K; ++iCenter) {
@@ -62,15 +59,13 @@ void UnitTestKMean() {
       VecGet(vFloat, 0), VecGet(vFloat, 1));
   }
   KMeansClustersFreeStatic(&clusters);
-
   printf("--- Seed: forgy\n");
   seed = KMeansClustersSeed_Forgy;
   clusters = KMeansClustersCreateStatic(seed);
   KMeansClustersSearch(&clusters, &input, K);
-
   if (GSetNbElem(KMeansClustersCenters(&clusters)) != K) {
-    PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "_GetKMeansClusterFloat NOK");
+    PBDataAnalysisErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBDataAnalysisErr->_msg, "_GetKMeansClusterFloat NOK");
     PBErrCatch(PBDataAnalysisErr);
   }
   for (int iCenter = 0; iCenter < K; ++iCenter) {
@@ -81,17 +76,14 @@ void UnitTestKMean() {
     fprintf(csvFile, "%f %f\n", 
       VecGet(vFloat, 0), VecGet(vFloat, 1));
   }
-
   KMeansClustersFreeStatic(&clusters);
-
   printf("--- Seed: plusplus\n");
   seed = KMeansClustersSeed_PlusPlus;
   clusters = KMeansClustersCreateStatic(seed);
   KMeansClustersSearch(&clusters, &input, K);
-
   if (GSetNbElem(KMeansClustersCenters(&clusters)) != K) {
-    PBMathErr->_type = PBErrTypeUnitTestFailed;
-    sprintf(PBMathErr->_msg, "_GetKMeansClusterFloat NOK");
+    PBDataAnalysisErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBDataAnalysisErr->_msg, "_GetKMeansClusterFloat NOK");
     PBErrCatch(PBDataAnalysisErr);
   }
   for (int iCenter = 0; iCenter < K; ++iCenter) {
@@ -102,14 +94,49 @@ void UnitTestKMean() {
     fprintf(csvFile, "%f %f\n", 
       VecGet(vFloat, 0), VecGet(vFloat, 1));
   }
-
+  FILE* fd = fopen("./kmeancluster.txt", "w");
+  if (!KMeansClustersSave(&clusters, fd, false)) {
+    PBDataAnalysisErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBDataAnalysisErr->_msg, "KMeansClustersSave NOK");
+    PBErrCatch(PBDataAnalysisErr);
+  }
+  fclose(fd);
+  KMeansClusters loadClusters = 
+    KMeansClustersCreateStatic(KMeansClustersSeed_Default);
+  fd = fopen("./kmeancluster.txt", "r");
+  if (!KMeansClustersLoad(&loadClusters, fd)) {
+    PBDataAnalysisErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBDataAnalysisErr->_msg, "KMeansClustersLoad NOK");
+    PBErrCatch(PBDataAnalysisErr);
+  }
+  fclose(fd);
+  if (clusters._seed != loadClusters._seed ||
+    GSetNbElem(KMeansClustersCenters(&clusters)) != 
+      GSetNbElem(KMeansClustersCenters(&loadClusters))) {
+    PBDataAnalysisErr->_type = PBErrTypeUnitTestFailed;
+    sprintf(PBDataAnalysisErr->_msg, "KMeansClustersLoad NOK");
+    PBErrCatch(PBDataAnalysisErr);
+  }
+  GSetIterForward iter = 
+    GSetIterForwardCreateStatic(KMeansClustersCenters(&clusters));
+  GSetIterForward iterLoad = 
+    GSetIterForwardCreateStatic(KMeansClustersCenters(&loadClusters));
+  do {
+    VecFloat* u = GSetIterGet(&iter);
+    VecFloat* v = GSetIterGet(&iterLoad);
+    if (VecIsEqual(u, v) == false) {
+      PBDataAnalysisErr->_type = PBErrTypeUnitTestFailed;
+      sprintf(PBDataAnalysisErr->_msg, "KMeansClustersLoad NOK");
+      PBErrCatch(PBDataAnalysisErr);
+    }
+  } while (GSetIterStep(&iter) && GSetIterStep(&iterLoad));
+  KMeansClustersFreeStatic(&loadClusters);
   KMeansClustersFreeStatic(&clusters);
   fclose(csvFile);
   while (GSetNbElem(&input) > 0) {
     VecFloat* v = GSetPop(&input);
     VecFree(&v);
   }
-
   printf("UnitTestKMean OK\n");
 }
 

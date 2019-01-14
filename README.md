@@ -5,7 +5,7 @@ PBDataAnalysis is a C library providing structures and functions to perform vari
 It implements the following algorithms:
 * K-means clustering (random and Forgy seeds)
 
-It uses the PBErr, PBMath, GSet libraries.
+It uses the PBErr, PBMath, PBJson, GSet libraries.
 
 ## How to install this repository
 1) Create a directory which will contains this repository and all the repositories it is depending on. Lets call it "Repos"

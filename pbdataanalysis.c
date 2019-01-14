@@ -384,3 +384,145 @@ void KMeansClustersPrintln(const KMeansClusters* const that,
     printf("\n");
   } while (GSetIterStep(&iter));
 }
+
+// Load the KMeansClusters 'that' from the stream 'stream'
+bool KMeansClustersLoad(KMeansClusters* that, FILE* const stream) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBDataAnalysisErr->_type = PBErrTypeNullPointer;
+    sprintf(PBDataAnalysisErr->_msg, "'that' is null");
+    PBErrCatch(PBDataAnalysisErr);
+  }
+  if (stream == NULL) {
+    PBDataAnalysisErr->_type = PBErrTypeNullPointer;
+    sprintf(PBDataAnalysisErr->_msg, "'stream' is null");
+    PBErrCatch(PBDataAnalysisErr);
+  }
+#endif
+  // Declare a json to load the encoded data
+  JSONNode* json = JSONCreate();
+  // Load the whole encoded data
+  if (!JSONLoad(json, stream)) {
+    return false;
+  }
+  // Decode the data from the JSON
+  if (!KMeansClustersDecodeAsJSON(that, json)) {
+    return false;
+  }
+  // Free the memory used by the JSON
+  JSONFree(&json);
+  // Return success code
+  return true;
+}
+
+// Save the KMeansClusters 'that' to the stream 'stream'
+// If 'compact' equals true it saves in compact form, else it saves in 
+// readable form
+// Return true upon success else false
+bool KMeansClustersSave(const KMeansClusters* const that, 
+  FILE* const stream, const bool compact) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBDataAnalysisErr->_type = PBErrTypeNullPointer;
+    sprintf(PBDataAnalysisErr->_msg, "'that' is null");
+    PBErrCatch(PBDataAnalysisErr);
+  }
+  if (stream == NULL) {
+    PBDataAnalysisErr->_type = PBErrTypeNullPointer;
+    sprintf(PBDataAnalysisErr->_msg, "'stream' is null");
+    PBErrCatch(PBDataAnalysisErr);
+  }
+#endif
+  // Get the JSON encoding
+  JSONNode* json = KMeansClustersEncodeAsJSON(that);
+  // Save the JSON
+  if (!JSONSave(json, stream, compact)) {
+    return false;
+  }
+  // Free memory
+  JSONFree(&json);
+  // Return success code
+  return true;
+}
+
+// Function which return the JSON encoding of 'that' 
+JSONNode* KMeansClustersEncodeAsJSON(const KMeansClusters* const that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBDataAnalysisErr->_type = PBErrTypeNullPointer;
+    sprintf(PBDataAnalysisErr->_msg, "'that' is null");
+    PBErrCatch(PBDataAnalysisErr);
+  }
+#endif
+  // Create the JSON structure
+  JSONNode* json = JSONCreate();
+  // Declare a buffer to convert value into string
+  char val[100];
+  // Encode the seed
+  sprintf(val, "%u", that->_seed);
+  JSONAddProp(json, "_seed", val);
+  // Encode the centers
+  JSONArrayStruct setCenters = JSONArrayStructCreateStatic();
+  // If there are clusters
+  if (KMeansClustersGetK(that) > 0) {
+    // For each cluster
+    GSetIterForward iter = 
+      GSetIterForwardCreateStatic(KMeansClustersCenters(that));
+    do {
+      VecFloat* center = GSetIterGet(&iter);
+      JSONArrayStructAdd(&setCenters, VecEncodeAsJSON(center));
+    } while (GSetIterStep(&iter));
+    JSONAddProp(json, "_centers", &setCenters);
+  }
+  // Free memory
+  JSONArrayStructFlush(&setCenters);
+  // Return the created JSON 
+  return json;
+}
+
+// Function which decode from JSON encoding 'json' to 'that'
+bool KMeansClustersDecodeAsJSON(KMeansClusters* that, 
+  const JSONNode* const json) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBDataAnalysisErr->_type = PBErrTypeNullPointer;
+    sprintf(PBDataAnalysisErr->_msg, "'that' is null");
+    PBErrCatch(PBDataAnalysisErr);
+  }
+  if (json == NULL) {
+    PBDataAnalysisErr->_type = PBErrTypeNullPointer;
+    sprintf(PBDataAnalysisErr->_msg, "'json' is null");
+    PBErrCatch(PBDataAnalysisErr);
+  }
+#endif
+  // Free the memory eventually used by the clusters
+  KMeansClustersFreeStatic(that);
+  // Get the seed from the JSON
+  JSONNode* prop = JSONProperty(json, "_seed");
+  if (prop == NULL) {
+    return false;
+  }
+  int seed = atoi(JSONLabel(JSONValue(prop, 0)));
+  if (seed < 0 || seed > KMeansClustersSeed_PlusPlus) {
+    return false;
+  }
+  that->_seed = (KMeansClustersSeed)seed;
+  // Decode the centers
+  prop = JSONProperty(json, "_centers");
+  if (prop == NULL) {
+    return false;
+  }
+  // For each cluster
+  for (int iCluster = 0; iCluster < JSONGetNbValue(prop); ++iCluster) {
+    // Decode the center of the cluster
+    JSONNode* center = JSONValue(prop, iCluster);
+    VecFloat* v = NULL;
+    if (!VecDecodeAsJSON(&v, center))
+      return false;
+    GSetAppend((GSet*)KMeansClustersCenters(that), v);
+  }
+  // Return the success code
+  return true;
+}
+
+

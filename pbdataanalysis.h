@@ -13,6 +13,7 @@
 #include <string.h>
 #include "pberr.h"
 #include "pbmath.h"
+#include "pbjson.h"
 #include "gset.h"
 
 // ================= Define ==================
@@ -95,6 +96,23 @@ int KMeansClustersGetK(const KMeansClusters* const that);
 // Print the KMeansClusters 'that' on the stream 'stream'
 void KMeansClustersPrintln(const KMeansClusters* const that,
   FILE* const stream);
+
+// Load the KMeansClusters 'that' from the stream 'stream'
+bool KMeansClustersLoad(KMeansClusters* that, FILE* const stream);
+
+// Save the KMeansClusters 'that' to the stream 'stream'
+// If 'compact' equals true it saves in compact form, else it saves in 
+// readable form
+// Return true upon success else false
+bool KMeansClustersSave(const KMeansClusters* const that, 
+  FILE* const stream, const bool compact);
+
+// Function which return the JSON encoding of 'that' 
+JSONNode* KMeansClustersEncodeAsJSON(const KMeansClusters* const that);
+
+// Function which decode from JSON encoding 'json' to 'that'
+bool KMeansClustersDecodeAsJSON(KMeansClusters* that, 
+  const JSONNode* const json);
 
 // ================= Polymorphism ==================
 
