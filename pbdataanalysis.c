@@ -161,7 +161,7 @@ void KMeansClustersSearch(KMeansClusters* const that,
         GSetFlush(inputsByCluster + iCenter);
       }
     }
-//printf("\n");
+//printf("\n");fflush(stdout);
   }
   // Free the memory used by the vector and sets used for computation
   free(inputsByCluster);
@@ -301,7 +301,7 @@ void KMeansClustersInitPlusPlus(KMeansClusters* const that,
     float r = rnd() * sumDist;
     GSetIterBackward iterBack = GSetIterBackwardCreateStatic(&remainInp);
     float sum = GSetElemGetSortVal(GSetIterGetElem(&iterBack));
-    while (r > sum) {
+    while (r > sum && !GSetIterIsLast(&iter)) {
       GSetIterStep(&iterBack);
       sum += GSetElemGetSortVal(GSetIterGetElem(&iterBack));
     }
