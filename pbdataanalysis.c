@@ -161,7 +161,7 @@ void KMeansClustersSearch(KMeansClusters* const that,
         GSetFlush(inputsByCluster + iCenter);
       }
     }
-//printf("\n");fflush(stdout);
+//printf(" %f\n", shift);fflush(stdout);
   }
   // Free the memory used by the vector and sets used for computation
   free(inputsByCluster);
