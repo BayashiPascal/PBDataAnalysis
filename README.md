@@ -3,7 +3,9 @@
 PBDataAnalysis is a C library providing structures and functions to perform various data analysis.
 
 It implements the following algorithms:
-* K-means clustering (random and Forgy seeds)
+* K-means clustering (random, Forgy and ++ seeds)
+
+As an example of use, code is provided to compute the target dimensions in the config file of YoloV3 given the target bounding boxes of the training data set, using K-means clustering.
 
 It uses the PBErr, PBMath, PBJson, GSet libraries.
 

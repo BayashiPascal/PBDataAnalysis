@@ -6,3 +6,4 @@
 \contentsline {section}{\numberline {4}Makefile}{13}
 \contentsline {section}{\numberline {5}Unit tests}{14}
 \contentsline {section}{\numberline {6}Unit tests output}{16}
+\contentsline {section}{\numberline {7}YoloBoxes}{19}

@@ -17,6 +17,8 @@ The goal of the K-means clustering algorithm is to find K Voronoi cells which cl
 
 The K-means algorithm is as follow, where 'seed' defines the way we initialise the algorithm: 'random', 'Forgy' or 'plusplus'.\\
 
+As an example of use, code is provided to compute the target dimensions in the config file of YoloV3 given the target bounding boxes of the training data set, using K-means clustering.\\
+
 \begin{scriptsize}
 \begin{ttfamily}
 \verbatiminput{/home/bayashi/GitHub/PBDataAnalysis/Doc/kmeansclustering.txt}
@@ -86,3 +88,18 @@ kmeancluster.txt:\\
 \end{ttfamily}
 \end{scriptsize}
 
+\section{YoloBoxes}
+
+main.c:\\
+\begin{scriptsize}
+\begin{ttfamily}
+\verbatiminput{/home/bayashi/GitHub/PBDataAnalysis/YoloBoxes/main.c}
+\end{ttfamily}
+\end{scriptsize}
+
+example of use and output:\\
+\begin{scriptsize}
+\begin{ttfamily}
+\verbatiminput{/home/bayashi/GitHub/PBDataAnalysis/YoloBoxes/res.txt}
+\end{ttfamily}
+\end{scriptsize}

@@ -1,0 +1,5 @@
+cat Data/*.txt > targets.txt; \
+wc -l targets.txt | awk '{print $1}' > input.txt; \
+cat targets.txt | awk '{printf "%f %f\n", $4, $5}' >> input.txt
+main 250 250 9 input.txt
+89,87 37,37 69,70 31,31 87,78 56,57 41,41 80,82 46,47 
