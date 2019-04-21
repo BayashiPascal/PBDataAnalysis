@@ -7,6 +7,143 @@
 #include "pbdataanalysis-inline.c"
 #endif
 
+// ----------------- Principal component analysis ---------------
+
+// ================ Functions declaration ====================
+
+// ================ Functions implementation ====================
+
+// Create a static PrincipalComponentAnalysis
+PrincipalComponentAnalysis PrincipalComponentAnalysisCreateStatic() {
+  // Declare the PrincipalComponentAnalysis
+  PrincipalComponentAnalysis that;
+  // Init the properties
+  that._components = GSetVecFloatCreateStatic();
+  // Return the PrincipalComponentAnalysis
+  return that;
+}
+
+// Free the memory used by the static PrincipalComponentAnalysis
+void PrincipalComponentAnalysisFreeStatic(
+  PrincipalComponentAnalysis* const that) {
+  if (that == NULL)
+    return;
+  // Free memory
+  while(GSetNbElem(PCAComponents(that)) > 0) {
+    VecFloat* v = GSetPop(&(that->_components));
+    VecFree(&v);
+  }
+}
+
+// Calculate the principal components for the 'dataset' and 
+// store the result into the PrincipalComponentAnalysis 'that'
+void PCASearch(PrincipalComponentAnalysis* const that, 
+  const GDataSetVecFloat* const dataset) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBDataAnalysisErr->_type = PBErrTypeNullPointer;
+    sprintf(PBDataAnalysisErr->_msg, "'that' is null");
+    PBErrCatch(GSetErr);
+  }
+  if (dataset == NULL) {
+    PBDataAnalysisErr->_type = PBErrTypeNullPointer;
+    sprintf(PBDataAnalysisErr->_msg, "'dataset' is null");
+    PBErrCatch(GSetErr);
+  }
+#endif
+  // 1) Create a centered version of the dataset
+  GDataSetVecFloat centeredDataset = GDSClone(dataset);
+  GDSMeanCenter(&centeredDataset);
+  
+  // 2) Calculate the covariance matrix
+  MatFloat* covariance = GDSGetCovarianceMatrix(&centeredDataset);
+
+  // 3) Calculate the Eigen values and vectors of the covariance matrix
+  
+  // 4) Sort the Eigen vectors and store them
+  
+  // Free memory
+  MatFree(&covariance);
+  GDataSetVecFloatFreeStatic(&centeredDataset);
+}
+  
+// Get the 'dataset' converted through the first 'nb' components of the 
+// PrincipalComponentAnalysis 'that'
+// Return a new data set, the dataset in arguments is not modified
+// Return an empty dataset if the principal components have not yet been
+// calculated (using the PCASearch function)
+// Returned VecFloat have dimension 'nb'. Returned GSet has same size
+// as 'dataset'
+// Dimension of VecFloat in 'dataset' must be equal to the number of
+// component in 'that'
+GDataSetVecFloat PCAConvert(const PrincipalComponentAnalysis* const that,
+  const GDataSetVecFloat* const dataset, const int nb) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBDataAnalysisErr->_type = PBErrTypeNullPointer;
+    sprintf(PBDataAnalysisErr->_msg, "'that' is null");
+    PBErrCatch(GSetErr);
+  }
+  if (dataset == NULL) {
+    PBDataAnalysisErr->_type = PBErrTypeNullPointer;
+    sprintf(PBDataAnalysisErr->_msg, "'dataset' is null");
+    PBErrCatch(GSetErr);
+  }
+  if (nb < 1) {
+    PBDataAnalysisErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBDataAnalysisErr->_msg, "'nb' is invalid (%d>0)", nb);
+    PBErrCatch(GSetErr);
+  }
+#endif
+  // Declare the result dataset
+  GDataSetVecFloat res = GDSClone(dataset);
+  
+  // Create the matrix of 'nb' first transposed components
+  
+  // Create the matrix of transposed vectors from the data set
+  
+  // Multiply the matrices
+  
+  // Create the result data set from the resulting matrix
+  
+  // Return the result
+  return res;
+}
+
+// Print the principal components of the PrincipalComponentAnalysis 'that'
+// on 'stream'
+void PCAPrintln(const PrincipalComponentAnalysis* const that,
+  FILE* const stream) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBDataAnalysisErr->_type = PBErrTypeNullPointer;
+    sprintf(PBDataAnalysisErr->_msg, "'that' is null");
+    PBErrCatch(GSetErr);
+  }
+  if (stream == NULL) {
+    PBDataAnalysisErr->_type = PBErrTypeNullPointer;
+    sprintf(PBDataAnalysisErr->_msg, "'stream' is null");
+    PBErrCatch(GSetErr);
+  }
+#endif
+  // If the components have been computed
+  if (GSetNbElem(PCAComponents(that)) > 0) {
+    // Create an iterator on the set of components
+    // Iterate in reverse order to display the most important
+    // components first
+    GSetIterBackward iter = 
+      GSetIterBackwardCreateStatic(PCAComponents(that));
+    do {
+      // Get the component
+      VecFloat* v = GSetIterGet(&iter);
+      // Display the component
+      VecPrint(v, stream);
+    } while (GSetIterStep(&iter));
+  }
+}
+
+// ----------------- K-means clustering ---------------
+
 // ================= Define ==================
 
 // ================ Functions declaration ====================

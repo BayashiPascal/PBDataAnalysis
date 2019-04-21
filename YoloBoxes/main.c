@@ -21,7 +21,7 @@ float* GetYoloBoxes(int K, int nbData, float* data) {
   }
 
   // Create the KMeansClusters
-  KMeansClustersSeed seed = KMeansClustersSeed_Forgy;
+  KMeansClustersSeed seed = KMeansClustersSeed_PlusPlus;
   KMeansClusters clusters = KMeansClustersCreateStatic(seed);
 
   // Search the K-Means

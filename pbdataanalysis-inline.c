@@ -1,5 +1,42 @@
 // ============ PBDATAANALYSIS_INLINE.C ================
 
+// ----------------- Principal component analysis ---------------
+
+// Get the principal components of the PrincipalComponentAnalysis 'that'
+#if BUILDMODE != 0 
+inline 
+#endif
+const GSetVecFloat* PCAComponents(
+  const PrincipalComponentAnalysis* const that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBDataAnalysisErr->_type = PBErrTypeNullPointer;
+    sprintf(PBDataAnalysisErr->_msg, "'that' is null");
+    PBErrCatch(GSetErr);
+  }
+#endif
+  return &(that->_components);
+}
+
+// Get the number of principal components of the 
+// PrincipalComponentAnalysis 'that'
+#if BUILDMODE != 0 
+inline 
+#endif
+int PCAGetNbComponents(
+  const PrincipalComponentAnalysis* const that) {
+#if BUILDMODE == 0
+  if (that == NULL) {
+    PBDataAnalysisErr->_type = PBErrTypeNullPointer;
+    sprintf(PBDataAnalysisErr->_msg, "'that' is null");
+    PBErrCatch(GSetErr);
+  }
+#endif
+  return GSetNbElem(PCAComponents(that));  
+}
+  
+// ----------------- K-means clustering ---------------
+
 // ================ Functions implementation ====================
 
 // Get the set of clusters' center for the KMeansClusters 'that'

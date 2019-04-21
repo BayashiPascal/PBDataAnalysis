@@ -140,12 +140,29 @@ void UnitTestKMean() {
   printf("UnitTestKMean OK\n");
 }
 
+void UnitTestPCA() {
+  char* datasetPath = "./unitTestPCA.json";
+  GDataSetVecFloat dataset = GDataSetVecFloatCreateStatic(datasetPath);
+  PrincipalComponentAnalysis pca =
+    PrincipalComponentAnalysisCreateStatic();
+  PCASearch(&pca, &dataset);
+  PCAPrintln(&pca, stdout);
+  GDataSetVecFloat convDataSet = PCAConvert(&pca, &dataset, 1);
+  
+  GDataSetVecFloatFreeStatic(&convDataSet);
+  PrincipalComponentAnalysisFreeStatic(&pca);
+  GDataSetVecFloatFreeStatic(&dataset);
+  printf("UnitTestPCA OK\n");
+}
+
 void UnitTestAll() {
   UnitTestKMean();
+  UnitTestPCA();
 }
 
 int main(void) {
-  UnitTestAll();
+  //UnitTestAll();
+  UnitTestPCA();
   return 0;
 }
 

@@ -15,6 +15,66 @@
 #include "pbmath.h"
 #include "pbjson.h"
 #include "gset.h"
+#include "gdataset.h"
+
+// ----------------- Principal component analysis ---------------
+
+// ================= Define ==================
+
+// ================= Data structure ===================
+
+typedef struct PrincipalComponentAnalysis {
+  // Principal components, stored from the most influent ot the less one
+  GSetVecFloat _components;
+} PrincipalComponentAnalysis;
+
+// ================ Functions declaration ====================
+
+// Create a static PrincipalComponentAnalysis
+PrincipalComponentAnalysis PrincipalComponentAnalysisCreateStatic();
+
+// Free the memory used by the static PrincipalComponentAnalysis
+void PrincipalComponentAnalysisFreeStatic(
+  PrincipalComponentAnalysis* const that);
+
+// Calculate the principal components for the 'dataset' and 
+// store the result into the PrincipalComponentAnalysis 'that'
+void PCASearch(PrincipalComponentAnalysis* const that, 
+  const GDataSetVecFloat* const dataset);
+  
+// Get the 'dataset' converted through the first 'nb' components of the 
+// PrincipalComponentAnalysis 'that'
+// Return a new data set, the dataset in arguments is not modified
+// Return an empty dataset if the principal components have not yet been
+// calculated (using the PCASearch function)
+// Returned VecFloat have dimension 'nb'. Returned GSet has same size
+// as 'dataset'
+// Dimension of VecFloat in 'dataset' must be equal to the number of
+// component in 'that'
+GDataSetVecFloat PCAConvert(const PrincipalComponentAnalysis* const that,
+  const GDataSetVecFloat* const dataset, const int nb);
+
+// Get the principal components of the PrincipalComponentAnalysis 'that'
+#if BUILDMODE != 0 
+inline 
+#endif
+const GSetVecFloat* PCAComponents(
+  const PrincipalComponentAnalysis* const that);
+
+// Get the number of principal components of the 
+// PrincipalComponentAnalysis 'that'
+#if BUILDMODE != 0 
+inline 
+#endif
+int PCAGetNbComponents(
+  const PrincipalComponentAnalysis* const that);
+  
+// Print the principal components of the PrincipalComponentAnalysis 'that'
+// on 'stream'
+void PCAPrintln(const PrincipalComponentAnalysis* const that,
+  FILE* const stream);
+  
+// ----------------- K-means clustering ---------------
 
 // ================= Define ==================
 
@@ -37,7 +97,7 @@ typedef struct KMeansClusters {
 // using the 'seed' technique
 KMeansClusters KMeansClustersCreateStatic(const KMeansClustersSeed seed);
 
-// Free the memory used by a PBDAKMeansClusters
+// Free the memory used by a KMeansClusters
 void KMeansClustersFreeStatic(KMeansClusters* const that);
 
 // Create the set of 'K' clusters clustering the 'input' data according 
