@@ -51,20 +51,24 @@ void PCASearch(PrincipalComponentAnalysis* const that,
     PBErrCatch(GSetErr);
   }
 #endif
-  // 1) Create a centered version of the dataset
-  GDataSetVecFloat centeredDataset = GDSClone(dataset);
-  GDSMeanCenter(&centeredDataset);
+  // 1) Create a centered and normalized version of the dataset
+  GDataSetVecFloat set = GDSClone(dataset);
+  GDSNormalize(&set);
+  GDSMeanCenter(&set);
   
   // 2) Calculate the covariance matrix
-  MatFloat* covariance = GDSGetCovarianceMatrix(&centeredDataset);
-
+  MatFloat* covariance = GDSGetCovarianceMatrix(&set);
+//MatFloatPrintln(covariance, stdout, 6);
+(void)that;
   // 3) Calculate the Eigen values and vectors of the covariance matrix
-  
+  //VecFloat* eigenVal = MatFloatGetEigenValues(covariance);
+//VecFloatPrint(eigenVal, stdout, 6);printf("\n");  
   // 4) Sort the Eigen vectors and store them
   
   // Free memory
   MatFree(&covariance);
-  GDataSetVecFloatFreeStatic(&centeredDataset);
+  //VecFree(&eigenVal);
+  GDataSetVecFloatFreeStatic(&set);
 }
   
 // Get the 'dataset' converted through the first 'nb' components of the 
@@ -97,7 +101,7 @@ GDataSetVecFloat PCAConvert(const PrincipalComponentAnalysis* const that,
 #endif
   // Declare the result dataset
   GDataSetVecFloat res = GDSClone(dataset);
-  
+(void)that;  (void)nb;
   // Create the matrix of 'nb' first transposed components
   
   // Create the matrix of transposed vectors from the data set
