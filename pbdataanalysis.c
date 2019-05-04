@@ -37,6 +37,8 @@ void PrincipalComponentAnalysisFreeStatic(
 
 // Calculate the principal components for the 'dataset' and 
 // store the result into the PrincipalComponentAnalysis 'that'
+// http://setosa.io/ev/principal-component-analysis/
+// https://www.dezyre.com/data-science-in-python-tutorial/principal-component-analysis-tutorial
 void PCASearch(PrincipalComponentAnalysis* const that, 
   const GDataSetVecFloat* const dataset) {
 #if BUILDMODE == 0
@@ -51,23 +53,24 @@ void PCASearch(PrincipalComponentAnalysis* const that,
     PBErrCatch(GSetErr);
   }
 #endif
-  // 1) Create a centered and normalized version of the dataset
+  // Create a centered and normalized version of the dataset
   GDataSetVecFloat set = GDSClone(dataset);
   GDSNormalize(&set);
   GDSMeanCenter(&set);
   
-  // 2) Calculate the covariance matrix
+  // Calculate the covariance matrix
   MatFloat* covariance = GDSGetCovarianceMatrix(&set);
 //MatFloatPrintln(covariance, stdout, 6);
-(void)that;
-  // 3) Calculate the Eigen values and vectors of the covariance matrix
-  //VecFloat* eigenVal = MatFloatGetEigenValues(covariance);
-//VecFloatPrint(eigenVal, stdout, 6);printf("\n");  
-  // 4) Sort the Eigen vectors and store them
-  
+
+  // Calculate the Eigen values and vectors of the covariance matrix
+  that->_components = MatGetEigenValues(covariance);
+
+  // Pop out the unused Eigen values
+  VecFloat* v = GSetPop(&(that->_components));
+  VecFree(&v);
+
   // Free memory
   MatFree(&covariance);
-  //VecFree(&eigenVal);
   GDataSetVecFloatFreeStatic(&set);
 }
   
@@ -76,10 +79,10 @@ void PCASearch(PrincipalComponentAnalysis* const that,
 // Return a new data set, the dataset in arguments is not modified
 // Return an empty dataset if the principal components have not yet been
 // calculated (using the PCASearch function)
-// Returned VecFloat have dimension 'nb'. Returned GSet has same size
+// Returned VecFloat have dimension 'nb'. Returned GSet has same nbsample
 // as 'dataset'
-// Dimension of VecFloat in 'dataset' must be equal to the number of
-// component in 'that'
+// Dimension of VecFloat in 'dataset' must be equal to the size of
+// components in 'that'
 GDataSetVecFloat PCAConvert(const PrincipalComponentAnalysis* const that,
   const GDataSetVecFloat* const dataset, const int nb) {
 #if BUILDMODE == 0
@@ -98,18 +101,56 @@ GDataSetVecFloat PCAConvert(const PrincipalComponentAnalysis* const that,
     sprintf(PBDataAnalysisErr->_msg, "'nb' is invalid (%d>0)", nb);
     PBErrCatch(GSetErr);
   }
+  if (VecGetDim(GSetGet(PCAComponents(that), 0)) != 
+    VecGet(GDSSampleDim(dataset), 0)) {
+    PBDataAnalysisErr->_type = PBErrTypeInvalidArg;
+    sprintf(PBDataAnalysisErr->_msg, 
+      "Size of samples in dataset doesn't match size of component "
+      "(%ld=%d)", VecGetDim(GSetGet(PCAComponents(that), 0)),
+      VecGet(GDSSampleDim(dataset), 0));
+    PBErrCatch(GSetErr);
+  }
 #endif
   // Declare the result dataset
   GDataSetVecFloat res = GDSClone(dataset);
-(void)that;  (void)nb;
+
   // Create the matrix of 'nb' first transposed components
+  VecShort2D dimFeatures = VecShortCreateStatic2D();
+  VecSet(&dimFeatures, 0, VecGetDim(GSetGet(PCAComponents(that), 0)));
+  VecSet(&dimFeatures, 1, nb);
+  MatFloat* features = MatFloatCreate(&dimFeatures);
+  VecShort2D pos = VecShortCreateStatic2D();
+  do {
+    MatSet(features, &pos, VecGet(GSetGet(PCAComponents(that), 
+      VecGet(&pos, 1)), VecGet(&pos, 0)));
+  } while(VecStep(&pos, &dimFeatures));
   
   // Create the matrix of transposed vectors from the data set
+  GDSNormalize(&res);
+  GDSMeanCenter(&res);
+  VecShort2D dimData = VecShortCreateStatic2D();
+  VecSet(&dimData, 0, GDSGetSize(dataset));
+  VecSet(&dimData, 1, VecGet(&dimFeatures, 0));
+  MatFloat* data = MatFloatCreate(&dimData);
+  VecSetNull(&pos);
+  do {
+    MatSet(data, &pos, 
+      VecGet(GSetGet(GDSSamples(&res), VecGet(&pos, 0)), 
+      VecGet(&pos, 1)));
+  } while(VecStep(&pos, &dimData));
   
   // Multiply the matrices
+  MatFloat* proj = MatGetProdMat(features, data);
+MatFloatPrintln(proj, stdout, 6);
   
   // Create the result data set from the resulting matrix
   
+
+  // Free memory
+  MatFree(&features);
+  MatFree(&data);
+  MatFree(&proj);
+
   // Return the result
   return res;
 }
@@ -141,7 +182,7 @@ void PCAPrintln(const PrincipalComponentAnalysis* const that,
       // Get the component
       VecFloat* v = GSetIterGet(&iter);
       // Display the component
-      VecPrint(v, stream);
+      VecPrint(v, stream); printf("\n");
     } while (GSetIterStep(&iter));
   }
 }

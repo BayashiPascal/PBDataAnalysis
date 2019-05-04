@@ -24,7 +24,7 @@
 // ================= Data structure ===================
 
 typedef struct PrincipalComponentAnalysis {
-  // Principal components, stored from the most influent ot the less one
+  // Principal components, stored from the most influent to the less one
   GSetVecFloat _components;
 } PrincipalComponentAnalysis;
 
@@ -47,10 +47,10 @@ void PCASearch(PrincipalComponentAnalysis* const that,
 // Return a new data set, the dataset in arguments is not modified
 // Return an empty dataset if the principal components have not yet been
 // calculated (using the PCASearch function)
-// Returned VecFloat have dimension 'nb'. Returned GSet has same size
+// Returned VecFloat have dimension 'nb'. Returned GSet has same nbsample
 // as 'dataset'
-// Dimension of VecFloat in 'dataset' must be equal to the number of
-// component in 'that'
+// Dimension of VecFloat in 'dataset' must be equal to the size of
+// components in 'that'
 GDataSetVecFloat PCAConvert(const PrincipalComponentAnalysis* const that,
   const GDataSetVecFloat* const dataset, const int nb);
 

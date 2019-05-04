@@ -146,10 +146,19 @@ void UnitTestPCA() {
   PrincipalComponentAnalysis pca =
     PrincipalComponentAnalysisCreateStatic();
   PCASearch(&pca, &dataset);
+  printf("Components:\n");
   PCAPrintln(&pca, stdout);
-  GDataSetVecFloat convDataSet = PCAConvert(&pca, &dataset, 1);
+  GDataSetVecFloat convDataSet1D = PCAConvert(&pca, &dataset, 1);
+  GDataSetVecFloat convDataSet2D = PCAConvert(&pca, &dataset, 2);
+
+/*
+[ 0.058948, -0.179019,  0.042996,  0.077075]
+[ 0.058948, -0.179019,  0.042996,  0.077075
+  0.008194,  0.013179, -0.104300,  0.082928]
+*/
   
-  GDataSetVecFloatFreeStatic(&convDataSet);
+  GDataSetVecFloatFreeStatic(&convDataSet1D);
+  GDataSetVecFloatFreeStatic(&convDataSet2D);
   PrincipalComponentAnalysisFreeStatic(&pca);
   GDataSetVecFloatFreeStatic(&dataset);
   printf("UnitTestPCA OK\n");
