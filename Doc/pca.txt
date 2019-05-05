@@ -1,0 +1,20 @@
+Projection on the 'n' first principal components of the 'nbSample' 
+samples (vectors of dimension 'dim') of the data set 'dataset'
+A[i][j] <=> value of matrix A at the i-th column and j-th row
+
+set := normalized and centered version of dataset
+cov := covariance matrix of 'set' (matrix of dimensions 'dim' columns 
+  and 'dim' rows)
+components := eigenVector of 'cov' ('dim' vectors of dimension 'dim')
+A := create a matrix of dimensions 'dim' columns and 'n' rows
+for i := 0 to 'dim'
+  for j := 0 to 'n'
+    A[i][j] := (j-th components)[i]
+B := create a matrix of dimensions 'nbSample' columns and 'dim' rows
+for i := 0 to 'nbSample'
+  for j := 0 to 'dim'
+    B[i][j] := (i-th sample)[j]
+C := A * B (matrix of dimensions 'nbSample' columns and 'n' rows)
+
+The projection of the i-th sample is the i-th column of C (vector of 
+dimension 'n')

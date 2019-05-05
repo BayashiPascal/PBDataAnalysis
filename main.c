@@ -177,8 +177,7 @@ void UnitTestAll() {
 }
 
 int main(void) {
-  //UnitTestAll();
-  UnitTestPCA();
+  UnitTestAll();
   return 0;
 }
 

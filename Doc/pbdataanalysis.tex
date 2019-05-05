@@ -5,6 +5,7 @@ PBDataAnalysis is a C library providing structures and functions to perform vari
 It implements the following algorithms:
 \begin{itemize}
 \item K-means clustering (random, Forgy and plusplus seeds)
+\item Principal Component Analysis
 \end{itemize}
 
 It uses the \begin{ttfamily}PBErr\end{ttfamily}, \begin{ttfamily}PBMath\end{ttfamily}, \begin{ttfamily}PBJSon\end{ttfamily}, \begin{ttfamily}GSet\end{ttfamily} libraries.\\
@@ -22,6 +23,16 @@ As an example of use, code is provided to compute the target dimensions in the c
 \begin{scriptsize}
 \begin{ttfamily}
 \verbatiminput{/home/bayashi/GitHub/PBDataAnalysis/Doc/kmeansclustering.txt}
+\end{ttfamily}
+\end{scriptsize}
+
+\subsection{Principal Component Analysis}
+
+PCA consists of projecting the data on a subset of the Eigen vectors of the covariance matrix for these data.\\
+
+\begin{scriptsize}
+\begin{ttfamily}
+\verbatiminput{/home/bayashi/GitHub/PBDataAnalysis/Doc/pca.txt}
 \end{ttfamily}
 \end{scriptsize}
 
@@ -87,6 +98,27 @@ kmeancluster.txt:\\
 \verbatiminput{/home/bayashi/GitHub/PBDataAnalysis/kmeancluster.txt}
 \end{ttfamily}
 \end{scriptsize}
+
+unitTestPCA.json:\\
+\begin{scriptsize}
+\begin{ttfamily}
+\verbatiminput{/home/bayashi/GitHub/PBDataAnalysis/unitTestPCA.json}
+\end{ttfamily}
+\end{scriptsize}
+
+PCA1D:\\
+\begin{center}
+\begin{figure}[H]
+\centering\includegraphics[width=10cm]{../PCA1D.png}\\
+\end{figure}
+\end{center}
+
+PCA2D:\\
+\begin{center}
+\begin{figure}[H]
+\centering\includegraphics[width=10cm]{../PCA2D.png}\\
+\end{figure}
+\end{center}
 
 \section{YoloBoxes}
 

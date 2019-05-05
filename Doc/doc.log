@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.18)  5 MAY 2019 12:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.10.18)  5 MAY 2019 15:21
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -508,41 +508,48 @@ File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 7.
 
-Underfull \hbox (badness 10000) in paragraph at lines 10--11
+Underfull \hbox (badness 10000) in paragraph at lines 11--12
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 16--17
+Underfull \hbox (badness 10000) in paragraph at lines 17--18
 
  []
 
 [1
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 18--19
+Underfull \hbox (badness 10000) in paragraph at lines 19--20
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 20--21
+Underfull \hbox (badness 10000) in paragraph at lines 21--22
 
  []
 
 File: /home/bayashi/GitHub/PBDataAnalysis/Doc/kmeansclustering.txt  (verbatim)
+
+Underfull \hbox (badness 10000) in paragraph at lines 31--32
+
+ []
+
+File: /home/bayashi/GitHub/PBDataAnalysis/Doc/pca.txt  (verbatim)
+[2]
 File: /home/bayashi/GitHub/PBDataAnalysis/pbdataanalysis.h  (verbatim)
-[2] [3] [4]
+ [3] [4] [5]
 File: /home/bayashi/GitHub/PBDataAnalysis/pbdataanalysis.c  (verbatim)
- [5]
-Overfull \hbox (13.7558pt too wide) in paragraph at lines 42--42
+ [6]
+Overfull \hbox (13.7558pt too wide) in paragraph at lines 53--53
 []\OT1/cmtt/m/n/8 // https://www.dezyre.com/data-science-in-python-tutorial/pri
 ncipal-component-analysis-tutorial[] 
  []
 
-[6] [7] [8] [9] [10] [11] [12] [13] [14] [15] [16]
+[7] [8] [9] [10] [11] [12] [13] [14] [15] [16] [17]
 File: /home/bayashi/GitHub/PBDataAnalysis/Makefile  (verbatim)
 
-Overfull \hbox (787.2669pt too wide) in paragraph at lines 50--50
+Overfull \hbox (787.2669pt too wide) in paragraph at lines 61--61
 []\OT1/cmtt/m/n/8 if [ ! -d ../PBMake ]; then wget https://github.com/BayashiPa
 scal/PBMake/archive/master.zip; unzip master.zip; rm -f master.zip; sed -i '' '
 s@ROOT_DIR=.*@ROOT_DIR='"`pwd | gawk -F/ 'NF{NF-=1};1' | sed -e 's@ @/@g'`"'@' 
@@ -550,14 +557,14 @@ PBMake-master/Makefile.inc; mv PBMake-master ../PBMake; fi[]
  []
 
 
-Overfull \hbox (196.50842pt too wide) in paragraph at lines 50--50
+Overfull \hbox (196.50842pt too wide) in paragraph at lines 61--61
 []\OT1/cmtt/m/n/8 $(COMPILER) `echo "$($(repo)_EXE_DEP) $($(repo)_EXENAME).o" |
  tr ' ' '\n' | sort -u` $(LINK_ARG) $($(repo)_LINK_ARG) -o $($(repo)_EXENAME)[]
  
  []
 
-[17]
-Overfull \hbox (188.0083pt too wide) in paragraph at lines 50--50
+
+Overfull \hbox (188.0083pt too wide) in paragraph at lines 61--61
 []\OT1/cmtt/m/n/8 $(COMPILER) $(BUILD_ARG) $($(repo)_BUILD_ARG) `echo "$($(repo
 )_INC_DIR)" | tr ' ' '\n' | sort -u` -c $($(repo)_DIR)/$($(repo)_EXENAME).c[] 
  []
@@ -565,61 +572,224 @@ Overfull \hbox (188.0083pt too wide) in paragraph at lines 50--50
 File: /home/bayashi/GitHub/PBDataAnalysis/main.c  (verbatim)
 [18] [19] [20]
 File: /home/bayashi/GitHub/PBDataAnalysis/unitTestRef.txt  (verbatim)
+ [21]
+Overfull \hbox (94.50696pt too wide) in paragraph at lines 77--77
+[]\OT1/cmtt/m/n/8 <0.016,-0.279,-0.035,0.315,-0.010,0.174,-0.209,-0.125,-0.006,
+-0.006,-0.037,0.088,0.033,-0.000,0.584,-0.011,-0.617>[] 
+ []
 
-Underfull \hbox (badness 10000) in paragraph at lines 70--73
+
+Overfull \hbox (81.75677pt too wide) in paragraph at lines 77--77
+[]\OT1/cmtt/m/n/8 <0.010,0.435,-0.297,-0.142,-0.285,-0.246,0.452,0.201,0.035,0.
+009,-0.034,-0.019,-0.144,0.246,0.474,0.046,-0.072>[] 
+ []
+
+
+Overfull \hbox (90.2569pt too wide) in paragraph at lines 77--77
+[]\OT1/cmtt/m/n/8 <0.008,0.099,0.158,-0.102,0.084,-0.753,-0.053,-0.002,-0.034,-
+0.018,0.042,0.082,0.057,-0.262,-0.221,-0.036,-0.496>[] 
+ []
+
+
+Overfull \hbox (90.2569pt too wide) in paragraph at lines 77--77
+[]\OT1/cmtt/m/n/8 <-0.071,0.439,-0.037,-0.303,-0.321,0.510,-0.074,-0.026,-0.001
+,0.023,0.159,0.088,0.044,-0.324,-0.226,0.036,-0.382>[] 
+ []
+
+
+Overfull \hbox (86.00684pt too wide) in paragraph at lines 77--77
+[]\OT1/cmtt/m/n/8 <0.065,-0.070,-0.157,0.016,-0.042,-0.078,0.069,-0.067,0.012,-
+0.018,-0.083,0.003,-0.084,-0.851,0.322,0.043,0.324>[] 
+ []
+
+
+Overfull \hbox (81.75677pt too wide) in paragraph at lines 77--77
+[]\OT1/cmtt/m/n/8 <0.033,0.706,0.202,0.308,0.305,-0.012,-0.421,-0.050,-0.030,-0
+.025,-0.159,-0.068,0.029,0.008,0.188,-0.035,0.152>[] 
+ []
+
+
+Overfull \hbox (81.75677pt too wide) in paragraph at lines 77--77
+[]\OT1/cmtt/m/n/8 <-0.007,-0.068,0.563,0.127,-0.714,-0.112,-0.177,0.190,-0.050,
+-0.082,0.007,0.104,0.061,0.022,0.105,-0.055,0.184>[] 
+ []
+
+
+Overfull \hbox (69.00659pt too wide) in paragraph at lines 77--77
+[]\OT1/cmtt/m/n/8 <0.034,0.119,-0.071,0.354,-0.214,-0.117,0.185,-0.733,0.066,0.
+013,0.391,0.058,0.099,0.070,-0.088,0.180,0.092>[] 
+ []
+
+
+Overfull \hbox (86.00684pt too wide) in paragraph at lines 77--77
+[]\OT1/cmtt/m/n/8 <-0.103,0.028,0.561,-0.273,0.279,0.141,0.492,-0.211,-0.083,-0
+.065,-0.110,0.102,0.356,-0.030,0.233,-0.006,-0.013>[] 
+ []
+
+
+Overfull \hbox (90.2569pt too wide) in paragraph at lines 77--77
+[]\OT1/cmtt/m/n/8 <0.137,-0.069,-0.088,-0.657,-0.062,-0.133,-0.457,-0.365,-0.11
+6,0.111,0.091,-0.067,0.077,0.160,0.273,-0.086,0.145>[] 
+ []
+
+
+Overfull \hbox (90.2569pt too wide) in paragraph at lines 77--77
+[]\OT1/cmtt/m/n/8 <0.321,-0.006,0.048,0.028,-0.212,0.033,0.120,-0.247,0.087,-0.
+024,-0.510,-0.660,0.015,-0.021,-0.146,-0.151,-0.154>[] 
+ []
+
+
+Overfull \hbox (73.25665pt too wide) in paragraph at lines 77--77
+[]\OT1/cmtt/m/n/8 <0.535,-0.006,0.363,-0.050,0.141,0.074,0.076,0.084,0.141,0.37
+7,0.316,-0.073,-0.471,-0.020,0.062,0.211,-0.058>[] 
+ []
+
+
+Overfull \hbox (86.00684pt too wide) in paragraph at lines 77--77
+[]\OT1/cmtt/m/n/8 <-0.293,0.006,0.131,-0.077,0.001,0.019,0.030,-0.317,0.160,-0.
+154,-0.205,0.254,-0.698,0.036,-0.034,-0.378,-0.013>[] 
+ []
+
+
+Overfull \hbox (77.50671pt too wide) in paragraph at lines 77--77
+[]\OT1/cmtt/m/n/8 <0.007,0.006,0.035,0.053,0.077,0.041,0.086,0.076,-0.475,-0.39
+9,0.508,-0.388,-0.136,-0.051,0.070,-0.394,-0.023>[] 
+ []
+
+
+Overfull \hbox (90.2569pt too wide) in paragraph at lines 77--77
+[]\OT1/cmtt/m/n/8 <-0.517,-0.039,0.132,-0.090,0.042,-0.049,-0.103,0.057,0.565,-
+0.071,0.251,-0.489,-0.008,-0.036,0.127,0.208,-0.014>[] 
+ []
+
+
+Overfull \hbox (77.50671pt too wide) in paragraph at lines 77--77
+[]\OT1/cmtt/m/n/8 <-0.107,0.029,-0.033,0.115,-0.017,-0.008,0.081,0.051,0.181,0.
+631,0.150,-0.018,0.219,-0.055,0.028,-0.676,0.036>[] 
+ []
+
+
+Overfull \hbox (69.00659pt too wide) in paragraph at lines 77--77
+[]\OT1/cmtt/m/n/8 <0.453,0.021,-0.062,-0.054,0.054,0.027,-0.013,0.076,0.582,-0.
+496,0.136,0.217,0.208,0.017,0.015,-0.290,0.027>[] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 81--84
 
  []
 
 File: /home/bayashi/GitHub/PBDataAnalysis/kmeancluster.csv  (verbatim)
-[21] [22]
-Underfull \hbox (badness 10000) in paragraph at lines 77--78
+[22] [23]
+Underfull \hbox (badness 10000) in paragraph at lines 88--89
 
  []
 
-<./kmeansclustering.png, id=80, 720.6925pt x 607.26875pt>
+<./kmeansclustering.png, id=83, 720.6925pt x 607.26875pt>
 File: ./kmeansclustering.png Graphic file (type png)
 
 <use ./kmeansclustering.png>
-Package pdftex.def Info: ./kmeansclustering.png used on input line 80.
+Package pdftex.def Info: ./kmeansclustering.png used on input line 91.
 (pdftex.def)             Requested size: 170.71652pt x 143.84792pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 84--87
+ [24]
+Underfull \hbox (badness 10000) in paragraph at lines 95--98
 
  []
 
 File: /home/bayashi/GitHub/PBDataAnalysis/kmeancluster.txt  (verbatim)
-[23 <./kmeansclustering.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 93--96
+
+Underfull \hbox (badness 10000) in paragraph at lines 102--105
+
+ []
+
+File: /home/bayashi/GitHub/PBDataAnalysis/unitTestPCA.json  (verbatim)
+
+Overfull \hbox (489.76263pt too wide) in paragraph at lines 105--105
+[]  \OT1/cmtt/m/n/8 "desc": "Average consumption of 17 types of food in grams p
+er person per week for every country in the UK: England, North Ireland, Scotlan
+d, Wales (from http://setosa.io/ev/principal-component-analysis/)",[] 
+ []
+
+
+Overfull \hbox (251.75922pt too wide) in paragraph at lines 105--105
+[]      \OT1/cmtt/m/n/8 "_val":["375.0","57.0","245.0","1472.0","105.0","54.0",
+"193.0","147.0","1102.0","720.0","253.0","685.0","488.0","198.0","360.0","1374.
+0","156.0"][] 
+ []
+
+
+Overfull \hbox (243.2591pt too wide) in paragraph at lines 105--105
+[]      \OT1/cmtt/m/n/8 "_val":["135.0","47.0","267.0","1494.0","66.0","41.0","
+209.0","93.0","674.0","1033.0","143.0","586.0","355.0","187.0","334.0","1506.0"
+,"139.0"][] 
+ []
+
+
+Overfull \hbox (247.50916pt too wide) in paragraph at lines 105--105
+[]      \OT1/cmtt/m/n/8 "_val":["458.0","53.0","242.0","1462.0","103.0","62.0",
+"184.0","122.0","957.0","566.0","171.0","750.0","418.0","220.0","337.0","1572.0
+","147.0"][] 
+ []
+
+[25 <./kmeansclustering.png>]
+Overfull \hbox (251.75922pt too wide) in paragraph at lines 105--105
+[]      \OT1/cmtt/m/n/8 "_val":["475.0","73.0","227.0","1582.0","103.0","64.0",
+"235.0","160.0","1137.0","874.0","265.0","803.0","570.0","203.0","365.0","1256.
+0","175.0"][] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 109--110
+
+ []
+
+<../PCA1D.png, id=93, 576.1525pt x 131.49126pt>
+File: ../PCA1D.png Graphic file (type png)
+ <use ../PCA1D.png>
+Package pdftex.def Info: ../PCA1D.png used on input line 112.
+(pdftex.def)             Requested size: 284.52756pt x 64.93687pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 116--117
+
+ []
+
+<../PCA2D.png, id=94, 577.15625pt x 339.2675pt>
+File: ../PCA2D.png Graphic file (type png)
+ <use ../PCA2D.png>
+Package pdftex.def Info: ../PCA2D.png used on input line 119.
+(pdftex.def)             Requested size: 284.52756pt x 167.25717pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 125--128
 
  []
 
 File: /home/bayashi/GitHub/PBDataAnalysis/YoloBoxes/main.c  (verbatim)
-[24] [25]
-Underfull \hbox (badness 10000) in paragraph at lines 100--103
+[26 <../PCA1D.png> <../PCA2D.png>] [27]
+Underfull \hbox (badness 10000) in paragraph at lines 132--135
 
  []
 
 File: /home/bayashi/GitHub/PBDataAnalysis/YoloBoxes/res.txt  (verbatim)
-) [26] (./doc.aux) ) 
+[28]) [29] (./doc.aux) ) 
 Here is how much of TeX's memory you used:
- 13304 strings out of 494314
- 256227 string characters out of 6163111
+ 13320 strings out of 494314
+ 256510 string characters out of 6163111
  292773 words of memory out of 5000000
- 16386 multiletter control sequences out of 15000+600000
+ 16396 multiletter control sequences out of 15000+600000
  12740 words of font info for 50 fonts, out of 8000000 for 9000
  372 hyphenation exceptions out of 8191
  55i,6n,54p,405b,311s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr
-12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/
-texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfo
+nts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.
+pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/sh
+are/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb>
 
 pdfTeX warning: pdflatex: no GlyphToUnicode entry has been inserted yet!
-Output written on doc.pdf (26 pages, 143535 bytes).
+Output written on doc.pdf (29 pages, 166151 bytes).
 PDF statistics:
- 116 PDF objects out of 1000 (max. 8388607)
+ 129 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 18 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 28 words of extra memory for PDF output out of 10000 (max. 10000000)
 

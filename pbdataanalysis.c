@@ -60,7 +60,6 @@ void PCASearch(PrincipalComponentAnalysis* const that,
   
   // Calculate the covariance matrix
   MatFloat* covariance = GDSGetCovarianceMatrix(&set);
-//MatFloatPrintln(covariance, stdout, 6);
 
   // Calculate the Eigen values and vectors of the covariance matrix
   that->_components = MatGetEigenValues(covariance);
@@ -111,8 +110,6 @@ GDataSetVecFloat PCAConvert(const PrincipalComponentAnalysis* const that,
     PBErrCatch(GSetErr);
   }
 #endif
-  // Declare the result dataset
-  GDataSetVecFloat res = GDSClone(dataset);
 
   // Create the matrix of 'nb' first transposed components
   VecShort2D dimFeatures = VecShortCreateStatic2D();
@@ -126,8 +123,9 @@ GDataSetVecFloat PCAConvert(const PrincipalComponentAnalysis* const that,
   } while(VecStep(&pos, &dimFeatures));
   
   // Create the matrix of transposed vectors from the data set
-  GDSNormalize(&res);
-  GDSMeanCenter(&res);
+  GDataSetVecFloat normDataset = GDSClone(dataset);
+  GDSNormalize(&normDataset);
+  GDSMeanCenter(&normDataset);
   VecShort2D dimData = VecShortCreateStatic2D();
   VecSet(&dimData, 0, GDSGetSize(dataset));
   VecSet(&dimData, 1, VecGet(&dimFeatures, 0));
@@ -135,7 +133,7 @@ GDataSetVecFloat PCAConvert(const PrincipalComponentAnalysis* const that,
   VecSetNull(&pos);
   do {
     MatSet(data, &pos, 
-      VecGet(GSetGet(GDSSamples(&res), VecGet(&pos, 0)), 
+      VecGet(GSetGet(GDSSamples(&normDataset), VecGet(&pos, 0)), 
       VecGet(&pos, 1)));
   } while(VecStep(&pos, &dimData));
   
@@ -143,13 +141,35 @@ GDataSetVecFloat PCAConvert(const PrincipalComponentAnalysis* const that,
   MatFloat* proj = MatGetProdMat(features, data);
   
   // Create the result data set from the resulting matrix
-
-
+  GDataSetVecFloat res;
+  GDataSet* ptrRes = (GDataSet*)&res;
+  *ptrRes = GDataSetCreateStatic(GDataSetType_VecFloat);
+  char* name = PBErrMalloc(PBDataAnalysisErr, 
+    strlen(GDSName(dataset)) + 100);
+  sprintf(name, "%s - PCA%dD", GDSName(dataset), nb);
+  ptrRes->_name = strdup(name);
+  char *desc = PBErrMalloc(PBDataAnalysisErr, 
+    strlen(GDSDesc(dataset)) + 100);
+  sprintf(desc, "%s\nProjection on the %d first principal components.",
+    GDSDesc(dataset), nb);
+  ptrRes->_desc = strdup(desc);
+  ptrRes->_nbSample = GDSGetSize(dataset);
+  for (int iSample = ptrRes->_nbSample; iSample--;)
+    GSetAppend(&(ptrRes->_samples), VecFloatCreate(nb));
+  VecSetNull(&pos);
+  do {
+    VecSet((VecFloat*)GSetGet(&(ptrRes->_samples), VecGet(&pos, 0)), 
+      VecGet(&pos, 1), MatGet(proj, &pos));
+  } while(VecStep(&pos, MatDim(proj)));
+  GDSResetCategories(ptrRes);
 
   // Free memory
+  free(desc);
+  free(name);
   MatFree(&features);
   MatFree(&data);
   MatFree(&proj);
+  GDataSetVecFloatFreeStatic(&normDataset);
 
   // Return the result
   return res;
