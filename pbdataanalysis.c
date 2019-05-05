@@ -141,10 +141,10 @@ GDataSetVecFloat PCAConvert(const PrincipalComponentAnalysis* const that,
   
   // Multiply the matrices
   MatFloat* proj = MatGetProdMat(features, data);
-MatFloatPrintln(proj, stdout, 6);
   
   // Create the result data set from the resulting matrix
-  
+
+
 
   // Free memory
   MatFree(&features);

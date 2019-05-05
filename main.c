@@ -142,21 +142,28 @@ void UnitTestKMean() {
 
 void UnitTestPCA() {
   char* datasetPath = "./unitTestPCA.json";
-  GDataSetVecFloat dataset = GDataSetVecFloatCreateStatic(datasetPath);
+  GDataSetVecFloat dataset = 
+    GDataSetVecFloatCreateStaticFromFile(datasetPath);
   PrincipalComponentAnalysis pca =
     PrincipalComponentAnalysisCreateStatic();
   PCASearch(&pca, &dataset);
   printf("Components:\n");
   PCAPrintln(&pca, stdout);
   GDataSetVecFloat convDataSet1D = PCAConvert(&pca, &dataset, 1);
+  printf("Projection on 1st component:\n");
+  GSetIterForward iter = 
+    GSetIterForwardCreateStatic(GDSSamples(&convDataSet1D));
+  do {
+    VecFloat* sample = GSetIterGet(&iter);
+    VecPrint(sample, stdout); printf("\n");
+  } while (GSetIterStep(&iter));
   GDataSetVecFloat convDataSet2D = PCAConvert(&pca, &dataset, 2);
-
-/*
-[ 0.058948, -0.179019,  0.042996,  0.077075]
-[ 0.058948, -0.179019,  0.042996,  0.077075
-  0.008194,  0.013179, -0.104300,  0.082928]
-*/
-  
+  printf("Projection on 2nd component:\n");
+  iter = GSetIterForwardCreateStatic(GDSSamples(&convDataSet2D));
+  do {
+    VecFloat* sample = GSetIterGet(&iter);
+    VecPrint(sample, stdout); printf("\n");
+  } while (GSetIterStep(&iter));
   GDataSetVecFloatFreeStatic(&convDataSet1D);
   GDataSetVecFloatFreeStatic(&convDataSet2D);
   PrincipalComponentAnalysisFreeStatic(&pca);
