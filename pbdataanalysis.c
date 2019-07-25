@@ -704,7 +704,7 @@ bool KMeansClustersDecodeAsJSON(KMeansClusters* that,
   if (prop == NULL) {
     return false;
   }
-  int seed = atoi(JSONLabel(JSONValue(prop, 0)));
+  int seed = atoi(JSONLblVal(prop));
   if (seed < 0 || seed > KMeansClustersSeed_PlusPlus) {
     return false;
   }
