@@ -1,10 +1,10 @@
-// ============ PBDATAANALYSIS_INLINE.C ================
+// ============ PBDATAANALYSIS_static inline.C ================
 
 // ----------------- Principal component analysis ---------------
 
 // Get the principal components of the PrincipalComponentAnalysis 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif
 const GSetVecFloat* PCAComponents(
   const PrincipalComponentAnalysis* const that) {
@@ -21,7 +21,7 @@ const GSetVecFloat* PCAComponents(
 // Get the number of principal components of the 
 // PrincipalComponentAnalysis 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif
 int PCAGetNbComponents(
   const PrincipalComponentAnalysis* const that) {
@@ -41,7 +41,7 @@ int PCAGetNbComponents(
 
 // Get the set of clusters' center for the KMeansClusters 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif
 const GSetVecFloat* KMeansClustersCenters(
   const KMeansClusters* const that) {
@@ -57,7 +57,7 @@ const GSetVecFloat* KMeansClustersCenters(
 
 // Get the 'iCluster'-th cluster's center for the KMeansClusters 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif
 const VecFloat* _KMeansClustersCenterFromId(
   const KMeansClusters* const that, const int iCluster) {
@@ -79,7 +79,7 @@ const VecFloat* _KMeansClustersCenterFromId(
 
 // Get the seed of the KMeansClusters 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif
 KMeansClustersSeed KMeansClustersGetSeed(
   const KMeansClusters* const that) {
@@ -95,7 +95,7 @@ KMeansClustersSeed KMeansClustersGetSeed(
 
 // Set the seed of the KMeansClusters 'that' to 'seed'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif
 void KMeansClustersSetSeed(KMeansClusters* const that,
   const KMeansClustersSeed seed) {
@@ -111,7 +111,7 @@ void KMeansClustersSetSeed(KMeansClusters* const that,
 
 // Get the seed of the KMeansClusters 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif
 int KMeansClustersGetK(const KMeansClusters* const that) {
 #if BUILDMODE == 0
@@ -127,7 +127,7 @@ int KMeansClustersGetK(const KMeansClusters* const that) {
 // Get the center of the cluster including the 'input' data for the 
 // KMeansClusters 'that' 
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif
 const VecFloat* _KMeansClustersCenterFromPos(
   const KMeansClusters* const that, const VecFloat* input) {

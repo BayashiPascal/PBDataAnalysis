@@ -56,7 +56,7 @@ GDataSetVecFloat PCAConvert(const PrincipalComponentAnalysis* const that,
 
 // Get the principal components of the PrincipalComponentAnalysis 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif
 const GSetVecFloat* PCAComponents(
   const PrincipalComponentAnalysis* const that);
@@ -64,7 +64,7 @@ const GSetVecFloat* PCAComponents(
 // Get the number of principal components of the 
 // PrincipalComponentAnalysis 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif
 int PCAGetNbComponents(
   const PrincipalComponentAnalysis* const that);
@@ -109,27 +109,27 @@ void KMeansClustersSearch(KMeansClusters* const that,
 
 // Get the set of clusters' center for the KMeansClusters 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif
 const GSetVecFloat* KMeansClustersCenters(
   const KMeansClusters* const that);
 
 // Get the 'iCluster'-th cluster's center for the KMeansClusters 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif
 const VecFloat* _KMeansClustersCenterFromId(
   const KMeansClusters* const that, const int iCluster);
 
 // Get the seed of the KMeansClusters 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif
 KMeansClustersSeed KMeansClustersGetSeed(const KMeansClusters* const that);
 
 // Set the seed of the KMeansClusters 'that' to 'seed'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif
 void KMeansClustersSetSeed(KMeansClusters* const that,
   const KMeansClustersSeed seed);
@@ -137,7 +137,7 @@ void KMeansClustersSetSeed(KMeansClusters* const that,
 // Get the center of the cluster including the 'input' data for the 
 // KMeansClusters 'that' 
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif
 const VecFloat* _KMeansClustersCenterFromPos(
   const KMeansClusters* const that, const VecFloat* input);
@@ -149,7 +149,7 @@ int KMeansClustersGetId(const KMeansClusters* const that,
 
 // Get the seed of the KMeansClusters 'that'
 #if BUILDMODE != 0 
-inline 
+static inline 
 #endif
 int KMeansClustersGetK(const KMeansClusters* const that);
 
@@ -183,7 +183,7 @@ bool KMeansClustersDecodeAsJSON(KMeansClusters* that,
   const int: _KMeansClustersCenterFromId, \
   default: PBErrInvalidPolymorphism)(Cluster, Input)
 
-// ================ Inliner ====================
+// ================ static inliner ====================
 
 #if BUILDMODE != 0
 #include "pbdataanalysis-inline.c"
