@@ -55,11 +55,11 @@ void PCASearch(PrincipalComponentAnalysis* const that,
 #endif
   // Create a centered and normalized version of the dataset
   GDataSetVecFloat set = GDSClone(dataset);
-  GDSNormalize(&set);
-  GDSMeanCenter(&set);
+  GDSNormalizeInputs(&set);
+  GDSMeanCenterInputs(&set);
   
   // Calculate the covariance matrix
-  MatFloat* covariance = GDSGetCovarianceMatrix(&set);
+  MatFloat* covariance = GDSGetInpCovarianceMatrix(&set);
 
   // Calculate the Eigen values and vectors of the covariance matrix
   that->_components = MatGetEigenValues(covariance);
@@ -67,6 +67,24 @@ void PCASearch(PrincipalComponentAnalysis* const that,
   // Pop out the unused Eigen values
   VecFloat* v = GSetPop(&(that->_components));
   VecFree(&v);
+
+  // Correct the components according to the number of output
+  int nbInputs = GDSGetNbInputs(dataset);
+  int nbOutputs = GDSGetNbOutputs(dataset);
+  if (nbOutputs > 0) {
+    GSetIterForward iter = GSetIterForwardCreateStatic(&(that->_components));
+    do {
+      v = GSetIterGet(&iter);
+      VecFloat* w = VecGetNewDim(v, nbInputs + nbOutputs);
+      VecFree(&v);
+      GSetElemSetData((GSetElem*)GSetIterGetElem(&iter), w);
+    } while (GSetIterStep(&iter));
+  }
+  for (int i = nbInputs; i < nbInputs + nbOutputs; ++i) {
+    v = VecFloatCreate(nbInputs + nbOutputs);
+    VecSet(v, i, 1.0);
+    GSetAppend(&(that->_components), v);
+  }
 
   // Free memory
   MatFree(&covariance);
@@ -100,7 +118,7 @@ GDataSetVecFloat PCAConvert(const PrincipalComponentAnalysis* const that,
     sprintf(PBDataAnalysisErr->_msg, "'nb' is invalid (%d>0)", nb);
     PBErrCatch(GSetErr);
   }
-  if (VecGetDim(GSetGet(PCAComponents(that), 0)) != 
+  if (VecGetDim(GSetGet(PCAComponents(that), 0)) !=
     VecGet(GDSSampleDim(dataset), 0)) {
     PBDataAnalysisErr->_type = PBErrTypeInvalidArg;
     sprintf(PBDataAnalysisErr->_msg, 
@@ -124,8 +142,8 @@ GDataSetVecFloat PCAConvert(const PrincipalComponentAnalysis* const that,
   
   // Create the matrix of transposed vectors from the data set
   GDataSetVecFloat normDataset = GDSClone(dataset);
-  GDSNormalize(&normDataset);
-  GDSMeanCenter(&normDataset);
+  GDSNormalizeInputs(&normDataset);
+  GDSMeanCenterInputs(&normDataset);
   VecShort2D dimData = VecShortCreateStatic2D();
   VecSet(&dimData, 0, GDSGetSize(dataset));
   VecSet(&dimData, 1, VecGet(&dimFeatures, 0));
@@ -162,6 +180,8 @@ GDataSetVecFloat PCAConvert(const PrincipalComponentAnalysis* const that,
       VecGet(&pos, 1), MatGet(proj, &pos));
   } while(VecStep(&pos, MatDim(proj)));
   GDSResetCategories(ptrRes);
+  GDSSetNbInputs(&res, GDSGetNbInputs(dataset));
+  GDSSetNbOutputs(&res, GDSGetNbOutputs(dataset));
 
   // Free memory
   free(desc);

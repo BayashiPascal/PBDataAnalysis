@@ -2,6 +2,8 @@
   "dataSet": "unitTestPCA",
   "dataSetType": "0",
   "desc": "Average consumption of 17 types of food in grams per person per week for every country in the UK: England, North Ireland, Scotland, Wales (from http://setosa.io/ev/principal-component-analysis/)",
+   "nbInputs": "17",
+   "nbOutputs": "0",
   "dim": {
     "_dim":"1",
     "_val":["17"]

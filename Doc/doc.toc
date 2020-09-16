@@ -7,4 +7,4 @@
 \contentsline {section}{\numberline {4}Makefile}{18}
 \contentsline {section}{\numberline {5}Unit tests}{19}
 \contentsline {section}{\numberline {6}Unit tests output}{22}
-\contentsline {section}{\numberline {7}YoloBoxes}{26}
+\contentsline {section}{\numberline {7}YoloBoxes}{27}
