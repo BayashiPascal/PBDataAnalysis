@@ -213,11 +213,9 @@ void PCAPrintln(const PrincipalComponentAnalysis* const that,
 #endif
   // If the components have been computed
   if (GSetNbElem(PCAComponents(that)) > 0) {
-    // Create an iterator on the set of components
-    // Iterate in reverse order to display the most important
-    // components first
-    GSetIterBackward iter = 
-      GSetIterBackwardCreateStatic(PCAComponents(that));
+    // Create an iterator on the set of components from the most important
+    GSetIterForward iter = 
+      GSetIterForwardCreateStatic(PCAComponents(that));
     do {
       // Get the component
       VecFloat* v = GSetIterGet(&iter);
