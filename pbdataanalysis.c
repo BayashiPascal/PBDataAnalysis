@@ -55,8 +55,6 @@ void PCASearch(PrincipalComponentAnalysis* const that,
 #endif
   // Create a centered and normalized version of the dataset
   GDataSetVecFloat set = GDSClone(dataset);
-  GDSNormalizeInputs(&set);
-  GDSMeanCenterInputs(&set);
   
   // Calculate the covariance matrix
   MatFloat* covariance = GDSGetInpCovarianceMatrix(&set);
